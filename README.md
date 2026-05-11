@@ -58,6 +58,16 @@ The browser miner is the easiest to try; the desktop app is the recommended stea
 
 The reference Rust implementation. Single binary, no dependencies beyond what `cargo` produces.
 
+**One-liner install** (interactive — prompts for private key + RPC URL, defaults to mainnet-beta if no RPC is given):
+
+```bash
+curl -sSL https://raw.githubusercontent.com/HannaPrints/equium/main/scripts/install.sh | bash
+```
+
+Installs to `~/.equium/`, builds the miner from source, writes your keypair to `~/.equium/wallet.json` (mode `600`), and drops a launcher at `~/.equium/bin/equium`. Re-run it any time to update. Non-interactive use via env vars: `EQUIUM_PRIVATE_KEY`, `EQUIUM_RPC_URL`, `EQUIUM_THREADS`, `EQUIUM_MAX_BLOCKS`, `EQUIUM_YES=1` (see top of `scripts/install.sh`).
+
+**Manual build** (if you'd rather not pipe a script to bash):
+
 ```bash
 git clone https://github.com/HannaPrints/equium.git
 cd equium
