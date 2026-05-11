@@ -58,9 +58,31 @@ The browser miner is the easiest to try; the desktop app is the recommended stea
 
 The reference Rust implementation. Single binary, no dependencies beyond what `cargo` produces.
 
+**One-liner install** — interactive. Prompts for private key + RPC URL (defaults to mainnet-beta), thread count, and max-blocks.
+
+Linux / macOS:
+
 ```bash
-git clone https://github.com/HannaPrints/equium.git
-cd equium
+curl -sSL https://raw.githubusercontent.com/FASHAKING/equium-cli/master/scripts/install.sh | bash
+```
+
+Windows PowerShell:
+
+```powershell
+irm https://raw.githubusercontent.com/FASHAKING/equium-cli/master/scripts/install.ps1 | iex
+```
+
+Both installers drop everything into `~/.equium/` (or `%USERPROFILE%\.equium\` on Windows): keypair at `wallet.json` (owner-only permissions), built binary in `bin/`, and a launcher script (`equium` on Unix, `equium.cmd` / `equium.ps1` on Windows). The Windows version also appends `bin/` to your user PATH. Re-run either installer any time to update.
+
+By default the miner uses **every core on your machine** (`threads = 0` → `num_cpus::get()`). Set `EQUIUM_THREADS=N` before running the installer if you'd rather cap it (e.g. leave a core free for desktop use). Other non-interactive overrides: `EQUIUM_PRIVATE_KEY`, `EQUIUM_RPC_URL`, `EQUIUM_MAX_BLOCKS`, `EQUIUM_YES=1` (see the top of each script for the full list).
+
+Prereqs: `git` and a C toolchain (Linux: `build-essential` · macOS: `xcode-select --install` · Windows: Visual Studio Build Tools with the **C++ build tools** workload). Rust is installed automatically via `rustup` if missing.
+
+**Manual build** (if you'd rather not pipe a script to bash):
+
+```bash
+git clone https://github.com/FASHAKING/equium-cli.git
+cd equium-cli
 cargo build -p equium-cli-miner --release
 
 ./target/release/equium-miner \
@@ -88,7 +110,7 @@ A free Helius key (see [docs/rpc](https://equium.xyz/docs/rpc)) is recommended f
 - Website: [equium.xyz](https://equium.xyz)
 - Docs: [equium.xyz/docs](https://equium.xyz/docs)
 - X: [**@EquiumEQM**](https://x.com/EquiumEQM)
-- GitHub: [HannaPrints/equium](https://github.com/HannaPrints/equium)
+- GitHub: [FASHAKING/equium-cli](https://github.com/FASHAKING/equium-cli)
 - Solana program: [`ZKGMUfxiRCXFPnqz9zgqAnuqJy15jk7fKbR4o6FuEQM`](https://explorer.solana.com/address/ZKGMUfxiRCXFPnqz9zgqAnuqJy15jk7fKbR4o6FuEQM) — [verified build](https://verify.osec.io/status/ZKGMUfxiRCXFPnqz9zgqAnuqJy15jk7fKbR4o6FuEQM) via OtterSec
 - $EQM mint: [`1MhvZzEe8gQ8Rb9CrT3Dn26Gkn9QRErzLMGkkTwveqm`](https://solscan.io/token/1MhvZzEe8gQ8Rb9CrT3Dn26Gkn9QRErzLMGkkTwveqm)
 
@@ -106,7 +128,7 @@ Always verify the mint address (not just the ticker) before buying on a DEX — 
 
 **Is the supply really capped at 21M?** Yes. The mint authority will be revoked before mainnet — at the SPL Token level, no more EQM can ever be created.
 
-**Where do I get help?** [Open a GitHub issue](https://github.com/HannaPrints/equium/issues) or hit us up on [X](https://x.com/EquiumEQM).
+**Where do I get help?** [Open a GitHub issue](https://github.com/FASHAKING/equium-cli/issues) or hit us up on [X](https://x.com/EquiumEQM).
 
 ## ✦ License
 
