@@ -211,11 +211,10 @@ if ([string]::IsNullOrEmpty($RpcUrl)) {
     $RpcUrl = Ask 'rpc url' $DefaultRpc
 }
 
-$Threads = $env:EQUIUM_THREADS
-if ([string]::IsNullOrEmpty($Threads)) {
-    $Threads = Ask 'solver threads (0 = all cores)' '0'
-}
-if ($Threads -notmatch '^\d+$') { Die 'threads must be a non-negative integer' }
+# Threads: default to 0, which the miner resolves to all available cores.
+# Overridable via $env:EQUIUM_THREADS if you want to leave headroom.
+$Threads = if ([string]::IsNullOrEmpty($env:EQUIUM_THREADS)) { '0' } else { $env:EQUIUM_THREADS }
+if ($Threads -notmatch '^\d+$') { Die 'EQUIUM_THREADS must be a non-negative integer' }
 
 $MaxBlocks = $env:EQUIUM_MAX_BLOCKS
 if ([string]::IsNullOrEmpty($MaxBlocks)) {

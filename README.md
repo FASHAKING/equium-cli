@@ -72,7 +72,9 @@ Windows PowerShell:
 irm https://raw.githubusercontent.com/HannaPrints/equium/main/scripts/install.ps1 | iex
 ```
 
-Both installers drop everything into `~/.equium/` (or `%USERPROFILE%\.equium\` on Windows): keypair at `wallet.json` (owner-only permissions), built binary in `bin/`, and a launcher script (`equium` on Unix, `equium.cmd` / `equium.ps1` on Windows). The Windows version also appends `bin/` to your user PATH. Re-run either installer any time to update. Non-interactive use via env vars: `EQUIUM_PRIVATE_KEY`, `EQUIUM_RPC_URL`, `EQUIUM_THREADS`, `EQUIUM_MAX_BLOCKS`, `EQUIUM_YES=1` (see the top of each script for the full list).
+Both installers drop everything into `~/.equium/` (or `%USERPROFILE%\.equium\` on Windows): keypair at `wallet.json` (owner-only permissions), built binary in `bin/`, and a launcher script (`equium` on Unix, `equium.cmd` / `equium.ps1` on Windows). The Windows version also appends `bin/` to your user PATH. Re-run either installer any time to update.
+
+By default the miner uses **every core on your machine** (`threads = 0` → `num_cpus::get()`). Set `EQUIUM_THREADS=N` before running the installer if you'd rather cap it (e.g. leave a core free for desktop use). Other non-interactive overrides: `EQUIUM_PRIVATE_KEY`, `EQUIUM_RPC_URL`, `EQUIUM_MAX_BLOCKS`, `EQUIUM_YES=1` (see the top of each script for the full list).
 
 Prereqs: `git` and a C toolchain (Linux: `build-essential` · macOS: `xcode-select --install` · Windows: Visual Studio Build Tools with the **C++ build tools** workload). Rust is installed automatically via `rustup` if missing.
 

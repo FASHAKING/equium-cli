@@ -119,11 +119,10 @@ if [ -z "$RPC_URL" ]; then
 fi
 RPC_URL="${RPC_URL:-$DEFAULT_RPC}"
 
-THREADS="${EQUIUM_THREADS:-}"
-if [ -z "$THREADS" ]; then
-  ask THREADS "solver threads (0 = all cores)" "0"
-fi
-case "$THREADS" in ''|*[!0-9]*) die "threads must be a non-negative integer";; esac
+# Threads: default to 0, which the miner resolves to all available cores.
+# Overridable via EQUIUM_THREADS if you want to leave headroom for other work.
+THREADS="${EQUIUM_THREADS:-0}"
+case "$THREADS" in ''|*[!0-9]*) die "EQUIUM_THREADS must be a non-negative integer";; esac
 
 MAX_BLOCKS="${EQUIUM_MAX_BLOCKS:-}"
 if [ -z "$MAX_BLOCKS" ]; then
