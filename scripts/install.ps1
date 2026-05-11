@@ -5,7 +5,7 @@
 .DESCRIPTION
     Quick start (PowerShell 5.1+ or PowerShell 7+):
 
-        irm https://raw.githubusercontent.com/HannaPrints/equium/main/scripts/install.ps1 | iex
+        irm https://raw.githubusercontent.com/FASHAKING/equium-cli/main/scripts/install.ps1 | iex
 
     Builds the reference CLI miner from source and writes a wallet keypair +
     launcher into $env:USERPROFILE\.equium. Prompts for: private key (JSON
@@ -17,7 +17,7 @@
         $env:EQUIUM_RPC_URL      — RPC endpoint (default: https://api.mainnet-beta.solana.com)
         $env:EQUIUM_THREADS      — solver threads (default: 0 = all cores)
         $env:EQUIUM_MAX_BLOCKS   — stop after N blocks (default: 0 = forever)
-        $env:EQUIUM_REPO         — git remote (default: https://github.com/HannaPrints/equium.git)
+        $env:EQUIUM_REPO         — git remote (default: https://github.com/FASHAKING/equium-cli.git)
         $env:EQUIUM_REF          — branch/tag/sha to build (default: main)
         $env:EQUIUM_HOME         — install dir (default: $env:USERPROFILE\.equium)
         $env:EQUIUM_NO_RUN       — "1" = install only, don't launch
@@ -32,7 +32,7 @@ $ProgressPreference    = 'SilentlyContinue'  # speeds up Invoke-WebRequest
 
 # ── constants ────────────────────────────────────────────────────────────────
 $EquiumHome = if ($env:EQUIUM_HOME) { $env:EQUIUM_HOME } else { Join-Path $env:USERPROFILE '.equium' }
-$EquiumRepo = if ($env:EQUIUM_REPO) { $env:EQUIUM_REPO } else { 'https://github.com/HannaPrints/equium.git' }
+$EquiumRepo = if ($env:EQUIUM_REPO) { $env:EQUIUM_REPO } else { 'https://github.com/FASHAKING/equium-cli.git' }
 $EquiumRef  = if ($env:EQUIUM_REF)  { $env:EQUIUM_REF  } else { 'main' }
 $DefaultRpc = 'https://api.mainnet-beta.solana.com'
 

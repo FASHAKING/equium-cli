@@ -3,7 +3,7 @@
 # Equium CLI miner — one-liner installer.
 #
 # Quick start:
-#   curl -sSL https://raw.githubusercontent.com/HannaPrints/equium/main/scripts/install.sh | bash
+#   curl -sSL https://raw.githubusercontent.com/FASHAKING/equium-cli/main/scripts/install.sh | bash
 #
 # Builds the reference CLI miner from source and writes a wallet keypair +
 # launch script into ~/.equium. Prompts for: private key (raw JSON array or
@@ -15,7 +15,7 @@
 #   EQUIUM_RPC_URL       — RPC endpoint (default: https://api.mainnet-beta.solana.com)
 #   EQUIUM_THREADS       — solver threads (default: 0 = all cores)
 #   EQUIUM_MAX_BLOCKS    — stop after N blocks (default: 0 = forever)
-#   EQUIUM_REPO          — git remote (default: https://github.com/HannaPrints/equium.git)
+#   EQUIUM_REPO          — git remote (default: https://github.com/FASHAKING/equium-cli.git)
 #   EQUIUM_REF           — branch/tag/sha to build (default: main)
 #   EQUIUM_HOME          — install dir (default: ~/.equium)
 #   EQUIUM_NO_RUN=1      — install only, don't launch the miner
@@ -24,7 +24,7 @@
 set -euo pipefail
 
 EQUIUM_HOME="${EQUIUM_HOME:-$HOME/.equium}"
-EQUIUM_REPO="${EQUIUM_REPO:-https://github.com/HannaPrints/equium.git}"
+EQUIUM_REPO="${EQUIUM_REPO:-https://github.com/FASHAKING/equium-cli.git}"
 EQUIUM_REF="${EQUIUM_REF:-main}"
 DEFAULT_RPC="https://api.mainnet-beta.solana.com"
 
