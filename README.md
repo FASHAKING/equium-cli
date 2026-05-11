@@ -58,13 +58,23 @@ The browser miner is the easiest to try; the desktop app is the recommended stea
 
 The reference Rust implementation. Single binary, no dependencies beyond what `cargo` produces.
 
-**One-liner install** (interactive — prompts for private key + RPC URL, defaults to mainnet-beta if no RPC is given):
+**One-liner install** — interactive. Prompts for private key + RPC URL (defaults to mainnet-beta), thread count, and max-blocks.
+
+Linux / macOS:
 
 ```bash
 curl -sSL https://raw.githubusercontent.com/HannaPrints/equium/main/scripts/install.sh | bash
 ```
 
-Installs to `~/.equium/`, builds the miner from source, writes your keypair to `~/.equium/wallet.json` (mode `600`), and drops a launcher at `~/.equium/bin/equium`. Re-run it any time to update. Non-interactive use via env vars: `EQUIUM_PRIVATE_KEY`, `EQUIUM_RPC_URL`, `EQUIUM_THREADS`, `EQUIUM_MAX_BLOCKS`, `EQUIUM_YES=1` (see top of `scripts/install.sh`).
+Windows PowerShell:
+
+```powershell
+irm https://raw.githubusercontent.com/HannaPrints/equium/main/scripts/install.ps1 | iex
+```
+
+Both installers drop everything into `~/.equium/` (or `%USERPROFILE%\.equium\` on Windows): keypair at `wallet.json` (owner-only permissions), built binary in `bin/`, and a launcher script (`equium` on Unix, `equium.cmd` / `equium.ps1` on Windows). The Windows version also appends `bin/` to your user PATH. Re-run either installer any time to update. Non-interactive use via env vars: `EQUIUM_PRIVATE_KEY`, `EQUIUM_RPC_URL`, `EQUIUM_THREADS`, `EQUIUM_MAX_BLOCKS`, `EQUIUM_YES=1` (see the top of each script for the full list).
+
+Prereqs: `git` and a C toolchain (Linux: `build-essential` · macOS: `xcode-select --install` · Windows: Visual Studio Build Tools with the **C++ build tools** workload). Rust is installed automatically via `rustup` if missing.
 
 **Manual build** (if you'd rather not pipe a script to bash):
 

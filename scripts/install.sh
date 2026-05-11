@@ -28,8 +28,12 @@ EQUIUM_REPO="${EQUIUM_REPO:-https://github.com/HannaPrints/equium.git}"
 EQUIUM_REF="${EQUIUM_REF:-main}"
 DEFAULT_RPC="https://api.mainnet-beta.solana.com"
 
-C_RESET='\033[0m'; C_BOLD='\033[1m'; C_DIM='\033[2m'
-C_ROSE='\033[35m'; C_GOLD='\033[33m'; C_SAGE='\033[32m'; C_RED='\033[31m'
+if [ -t 1 ]; then
+  C_RESET='\033[0m'; C_BOLD='\033[1m'; C_DIM='\033[2m'
+  C_ROSE='\033[35m'; C_GOLD='\033[33m'; C_SAGE='\033[32m'; C_RED='\033[31m'
+else
+  C_RESET=''; C_BOLD=''; C_DIM=''; C_ROSE=''; C_GOLD=''; C_SAGE=''; C_RED=''
+fi
 
 say()  { printf "${C_ROSE}equium${C_RESET} ${C_DIM}·${C_RESET} %s\n" "$*"; }
 ok()   { printf "${C_SAGE}✓${C_RESET} %s\n" "$*"; }
@@ -94,7 +98,8 @@ if ! need cargo; then
   . "$HOME/.cargo/env"
 fi
 need cargo || die "cargo still not on PATH; re-open your shell and rerun"
-need git   || die "git is required"
+need git   || die "git is required (install via your package manager)"
+need cc || need gcc || need clang || die "a C compiler is required (apt: build-essential · brew: xcode-select --install · dnf: gcc)"
 
 ok "toolchain ready ($(cargo --version))"
 
@@ -185,12 +190,18 @@ ok "wallet written to $KEYPAIR_FILE (mode 600)"
 SRC_DIR="$EQUIUM_HOME/src"
 if [ -d "$SRC_DIR/.git" ]; then
   say "updating sources in $SRC_DIR"
-  git -C "$SRC_DIR" fetch --depth 1 origin "$EQUIUM_REF"
-  git -C "$SRC_DIR" checkout -q FETCH_HEAD
+  git -C "$SRC_DIR" fetch --depth 1 origin "$EQUIUM_REF" \
+    || git -C "$SRC_DIR" fetch origin
+  git -C "$SRC_DIR" checkout -q FETCH_HEAD 2>/dev/null \
+    || git -C "$SRC_DIR" checkout -q "$EQUIUM_REF"
 else
   say "cloning $EQUIUM_REPO@$EQUIUM_REF → $SRC_DIR"
-  git clone --depth 1 --branch "$EQUIUM_REF" "$EQUIUM_REPO" "$SRC_DIR" \
-    || git clone --depth 1 "$EQUIUM_REPO" "$SRC_DIR"
+  # Try shallow-clone the ref as a branch/tag first; fall back to full clone +
+  # checkout for arbitrary SHAs.
+  if ! git clone --depth 1 --branch "$EQUIUM_REF" "$EQUIUM_REPO" "$SRC_DIR" 2>/dev/null; then
+    git clone "$EQUIUM_REPO" "$SRC_DIR"
+    git -C "$SRC_DIR" checkout -q "$EQUIUM_REF"
+  fi
 fi
 
 say "building equium-miner (this takes a few minutes on first run)"
