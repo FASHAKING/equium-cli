@@ -63,13 +63,13 @@ The reference Rust implementation. Single binary, no dependencies beyond what `c
 Linux / macOS:
 
 ```bash
-curl -sSL https://raw.githubusercontent.com/FASHAKING/equium-cli/main/scripts/install.sh | bash
+curl -sSL https://raw.githubusercontent.com/FASHAKING/equium-cli/master/scripts/install.sh | bash
 ```
 
 Windows PowerShell:
 
 ```powershell
-irm https://raw.githubusercontent.com/FASHAKING/equium-cli/main/scripts/install.ps1 | iex
+irm https://raw.githubusercontent.com/FASHAKING/equium-cli/master/scripts/install.ps1 | iex
 ```
 
 Both installers drop everything into `~/.equium/` (or `%USERPROFILE%\.equium\` on Windows): keypair at `wallet.json` (owner-only permissions), built binary in `bin/`, and a launcher script (`equium` on Unix, `equium.cmd` / `equium.ps1` on Windows). The Windows version also appends `bin/` to your user PATH. Re-run either installer any time to update.
