@@ -56,9 +56,9 @@ The browser miner is the easiest to try; the desktop app is the recommended stea
 
 ## ✦ CLI miner
 
-The reference Rust implementation. Single binary, no dependencies beyond what `cargo` produces.
+The reference Rust implementation. Single binary (~10 MB), no runtime dependencies. Prebuilt for `linux-x64`, `macos-x64`, `macos-arm64`, and `windows-x64`; other targets fall back to a source build.
 
-**One-liner install** — interactive. Prompts for private key + RPC URL (defaults to mainnet-beta), thread count, and max-blocks.
+**One-liner install** — interactive. Prompts for your private key and RPC URL (defaults to mainnet-beta), then downloads the latest signed binary from GitHub Releases, verifies SHA-256, drops the keypair + launcher into `~/.equium/`. Total time on a normal connection: a few seconds.
 
 Linux / macOS:
 
@@ -72,13 +72,19 @@ Windows PowerShell:
 irm https://raw.githubusercontent.com/FASHAKING/equium-cli/master/scripts/install.ps1 | iex
 ```
 
-Both installers drop everything into `~/.equium/` (or `%USERPROFILE%\.equium\` on Windows): keypair at `wallet.json` (owner-only permissions), built binary in `bin/`, and a launcher script (`equium` on Unix, `equium.cmd` / `equium.ps1` on Windows). The Windows version also appends `bin/` to your user PATH. Re-run either installer any time to update.
+Both installers drop everything into `~/.equium/` (or `%USERPROFILE%\.equium\` on Windows): keypair at `wallet.json` (owner-only permissions), binary in `bin/`, config + launcher alongside (`equium` on Unix, `equium.cmd` / `equium.ps1` on Windows). The Windows version also appends `bin/` to your user PATH. Re-run either installer any time to update to the latest release.
 
-By default the miner uses **every core on your machine** (`threads = 0` → `num_cpus::get()`). Set `EQUIUM_THREADS=N` before running the installer if you'd rather cap it (e.g. leave a core free for desktop use). Other non-interactive overrides: `EQUIUM_PRIVATE_KEY`, `EQUIUM_RPC_URL`, `EQUIUM_MAX_BLOCKS`, `EQUIUM_YES=1` (see the top of each script for the full list).
+By default the miner uses **every core on your machine** (`threads = 0` → `num_cpus::get()`). Set `EQUIUM_THREADS=N` before running the installer if you'd rather cap it (e.g. leave a core free for desktop use). Other non-interactive overrides: `EQUIUM_PRIVATE_KEY`, `EQUIUM_RPC_URL`, `EQUIUM_MAX_BLOCKS`, `EQUIUM_RELEASE_TAG`, `EQUIUM_YES=1` (see the top of each script for the full list).
 
-Prereqs: `git` and a C toolchain (Linux: `build-essential` · macOS: `xcode-select --install` · Windows: Visual Studio Build Tools with the **C++ build tools** workload). Rust is installed automatically via `rustup` if missing.
+**Build from source** instead of using prebuilt binaries — useful if you want to audit, or you're on an unsupported architecture (e.g. `linux-arm64`, ARM Windows):
 
-**Manual build** (if you'd rather not pipe a script to bash):
+```bash
+EQUIUM_BUILD_FROM_SOURCE=1 curl -sSL https://raw.githubusercontent.com/FASHAKING/equium-cli/master/scripts/install.sh | bash
+```
+
+Requires `git`, `cargo` (auto-installed via `rustup` if missing), and a C toolchain (Linux: `build-essential` · macOS: `xcode-select --install` · Windows: Visual Studio Build Tools with the **C++ build tools** workload).
+
+**Pure manual build** — no installer involved:
 
 ```bash
 git clone https://github.com/FASHAKING/equium-cli.git
